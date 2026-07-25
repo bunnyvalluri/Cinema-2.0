@@ -80,9 +80,27 @@ export const Footer = () => {
         </div>
 
         <div className="mt-12 pt-6 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} CINEMA ELK 2.0. Built with React, Tailwind, Express & Firebase.</p>
+          <p>
+            © {new Date().getFullYear()} CINEMA ELK 2.0. Developed by{' '}
+            <a
+              href="https://valluri-rahul-portfolio.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-accent font-bold hover:underline transition-colors"
+            >
+              VALLURI RAHUL
+            </a>
+          </p>
           <p className="flex items-center gap-1">
-            Crafted with <FiHeart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> for movie lovers worldwide.
+            Crafted with <FiHeart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> by{' '}
+            <a
+              href="https://valluri-rahul-portfolio.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-300 hover:text-primary font-bold hover:underline transition-colors"
+            >
+              VALLURI RAHUL
+            </a>
           </p>
         </div>
       </div>
