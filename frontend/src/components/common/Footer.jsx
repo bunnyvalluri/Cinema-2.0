@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiFilm, FiGithub, FiTwitter, FiInstagram, FiHeart } from 'react-icons/fi';
+import { FiGithub, FiTwitter, FiInstagram, FiHeart } from 'react-icons/fi';
+import { CinemaElkLogo } from './CinemaElkLogo';
 
 export const Footer = () => {
   return (
@@ -9,14 +10,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand Col */}
           <div className="md:col-span-1 space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow-primary">
-                <FiFilm className="w-5 h-5 text-dark-bg stroke-[2.5]" />
-              </div>
-              <span className="text-xl font-heading font-extrabold tracking-wider text-slate-100">
-                CINEMA<span className="text-primary">ELK 2.0</span>
-              </span>
-            </Link>
+            <CinemaElkLogo size="md" />
             <p className="text-xs text-slate-400 leading-relaxed">
               Enterprise-grade movie discovery, community review, and personalized film recommendation architecture powered by TMDB & Firebase.
             </p>

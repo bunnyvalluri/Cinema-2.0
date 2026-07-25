@@ -12,7 +12,7 @@ export default {
           DEFAULT: '#FF6B35',
           hover: '#E55A2B',
           light: '#FF885B',
-          glow: 'rgba(255, 107, 53, 0.35)',
+          glow: 'rgba(255, 107, 53, 0.45)',
         },
         secondary: {
           DEFAULT: '#1E293B',
@@ -43,22 +43,30 @@ export default {
         heading: ['Poppins', 'sans-serif'],
       },
       boxShadow: {
-        'glow-primary': '0 0 25px rgba(255, 107, 53, 0.4)',
-        'glow-accent': '0 0 25px rgba(250, 204, 21, 0.4)',
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-        'glass-light': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+        'glow-primary': '0 0 30px rgba(255, 107, 53, 0.45)',
+        'glow-accent': '0 0 30px rgba(250, 204, 21, 0.45)',
+        'glass': '0 12px 40px 0 rgba(0, 0, 0, 0.45)',
+        'glass-elevated': '0 20px 60px 0 rgba(0, 0, 0, 0.6)',
+        'spotlight': '0 25px 80px -15px rgba(0, 0, 0, 0.8)',
       },
       backdropBlur: {
         xs: '2px',
+        xl: '24px',
+        '2xl': '32px',
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
+        'scale-in': 'scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
         }
       }
     },

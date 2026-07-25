@@ -5,14 +5,24 @@
 @layer base {
   :root {
     --color-primary: #FF6B35;
+    --color-primary-hover: #E55A2B;
     --color-secondary: #1E293B;
     --color-accent: #FACC15;
     --color-success: #10B981;
     --color-danger: #EF4444;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply font-sans bg-dark-bg text-slate-100 overflow-x-hidden;
+    @apply font-sans bg-dark-bg text-slate-100 overflow-x-hidden antialiased;
+    background-image: 
+      radial-gradient(at 15% 15%, rgba(255, 107, 53, 0.08) 0px, transparent 50%),
+      radial-gradient(at 85% 25%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
+      radial-gradient(at 50% 75%, rgba(250, 204, 21, 0.04) 0px, transparent 50%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -20,12 +30,20 @@
   }
 }
 
-/* Glassmorphism utility classes */
+/* Glassmorphism premium utility classes */
 .glass-panel {
-  background: rgba(21, 28, 44, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(18, 24, 38, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-elevated {
+  background: linear-gradient(145deg, rgba(26, 35, 54, 0.8) 0%, rgba(15, 23, 42, 0.7) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .glass-panel-light {
@@ -36,26 +54,47 @@
 }
 
 .glass-header {
-  background: rgba(11, 15, 25, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
   border-color: rgba(255, 107, 53, 0.5);
-  box-shadow: 0 10px 30px -10px rgba(255, 107, 53, 0.3);
-  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -10px rgba(255, 107, 53, 0.25), 0 0 20px rgba(255, 107, 53, 0.15);
+  transform: translateY(-5px) scale(1.01);
 }
 
-/* Scrollbar styles */
+/* Ambient Card Poster Glow */
+.poster-glow-container {
+  position: relative;
+}
+
+.poster-glow-bg {
+  position: absolute;
+  inset: 5%;
+  border-radius: 1rem;
+  filter: blur(24px);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 0;
+  transform: scale(0.95);
+}
+
+.group:hover .poster-glow-bg {
+  opacity: 0.65;
+  transform: scale(1.05);
+}
+
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -67,44 +106,91 @@
 
 ::-webkit-scrollbar-thumb {
   background: #1E293B;
-  border-radius: 4px;
+  border-radius: 6px;
+  border: 2px solid #0B0F19;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #FF6B35;
 }
 
+/* Horizontal pills scrollbar hide */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Swiper custom styling */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #FF6B35 !important;
-  background: rgba(11, 15, 25, 0.7);
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
+  color: #FFFFFF !important;
+  background: rgba(15, 23, 42, 0.75) !important;
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(255, 107, 53, 0.9) !important;
+  border-color: rgba(255, 107, 53, 1) !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.6) !important;
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 18px !important;
-  font-weight: bold;
+  font-size: 16px !important;
+  font-weight: 800 !important;
 }
 
 .swiper-pagination-bullet {
   background: #94A3B8 !important;
-  opacity: 0.5;
+  opacity: 0.4;
+  transition: all 0.3s ease !important;
 }
 
 .swiper-pagination-bullet-active {
   background: #FF6B35 !important;
   opacity: 1;
-  width: 24px !important;
-  border-radius: 4px !important;
+  width: 28px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 12px rgba(255, 107, 53, 0.8) !important;
 }
 
-/* Text glow */
+/* Text glow & Neon */
 .text-glow {
-  text-shadow: 0 0 12px rgba(255, 107, 53, 0.6);
+  text-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
+}
+
+.text-glow-accent {
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
+}
+
+/* Shimmer Skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0.6) 25%,
+    rgba(51, 65, 85, 0.8) 37%,
+    rgba(30, 41, 59, 0.6) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
 }

@@ -8,6 +8,7 @@ import { MovieProvider } from './context/MovieContext';
 
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
+import { ScrollToTop } from './components/common/ScrollToTop';
 
 import { Landing } from './pages/Landing';
 import { Home } from './pages/Home';
@@ -66,6 +67,7 @@ export const App = () => {
               </main>
 
               <Footer />
+              <ScrollToTop />
 
               <Toaster
                 position="bottom-right"
