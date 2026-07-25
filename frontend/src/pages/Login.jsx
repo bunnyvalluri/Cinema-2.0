@@ -19,7 +19,7 @@ import toast from 'react-hot-toast';
 
 export const Login = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const { login, loading } = useAuth();
+  const { login, loginWithGoogle, loading } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,6 +31,15 @@ export const Login = () => {
     } catch (err) {
       console.error(err);
       toast.error('Authentication failed. Please check credentials.');
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await loginWithGoogle();
+      navigate('/');
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -202,7 +211,8 @@ export const Login = () => {
           </form>
 
           <button
-            onClick={() => handleQuickDemoAdmin()}
+            type="button"
+            onClick={handleGoogleSignIn}
             className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-slate-200 text-xs font-bold rounded-2xl border border-slate-700/80 flex items-center justify-center gap-2 transition-all shadow-md"
           >
             <FaGoogle className="text-rose-500" /> Sign In With Google SSO
