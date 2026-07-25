@@ -1,0 +1,13 @@
+{
+  "name": "cinema-elk-2.0",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Cinema Elk 2.0 Full-Stack Platform Root Package",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build": "npm --prefix frontend run build",
+    "install:all": "npm --prefix frontend install && npm --prefix backend install"
+  }
+}
