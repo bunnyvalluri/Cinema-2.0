@@ -41,7 +41,7 @@ export const App = () => {
             <div className="min-h-screen flex flex-col justify-between bg-dark-bg text-slate-100 font-sans selection:bg-primary selection:text-white">
               <Navbar />
 
-              <main className="flex-1 pt-24">
+              <main className="flex-1 pt-20 sm:pt-24 pb-20 lg:pb-6">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/landing" element={<Landing />} />
