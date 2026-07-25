@@ -43,7 +43,8 @@ export const App = () => {
 
               <main className="flex-1 pt-20 sm:pt-24 pb-20 lg:pb-6">
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Landing />} />
+                  <Route path="/home" element={<Home />} />
                   <Route path="/landing" element={<Landing />} />
                   <Route path="/movie/:id" element={<MovieDetails />} />
                   <Route path="/explore" element={<Explore />} />

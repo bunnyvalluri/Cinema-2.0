@@ -13,6 +13,7 @@ import {
   FiX,
   FiSearch,
   FiCommand,
+  FiFilm,
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { useMovieContext } from '../../context/MovieContext';
@@ -36,7 +37,6 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Listen for Cmd+K / Ctrl+K keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -49,15 +49,16 @@ export const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Home', path: '/' },
+    { label: 'Overview', path: '/' },
+    { label: 'Movies & Series', path: '/home' },
     { label: 'Explore', path: '/explore' },
     { label: 'Community', path: '/community' },
   ];
 
   const mobileBottomTabs = [
-    { label: 'Home', path: '/', icon: FiHome },
+    { label: 'Overview', path: '/', icon: FiHome },
+    { label: 'Movies', path: '/home', icon: FiFilm },
     { label: 'Explore', path: '/explore', icon: FiCompass },
-    { label: 'Community', path: '/community', icon: FiUsers },
     { label: 'Saved', path: '/watchlist', icon: FiBookmark, badge: watchlist.length },
     { label: 'Profile', path: user ? '/profile' : '/login', icon: FiUser },
   ];
@@ -249,7 +250,14 @@ export const Navbar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-200 hover:bg-slate-800/80"
                 >
-                  Home
+                  Overview (Landing)
+                </Link>
+                <Link
+                  to="/home"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-200 hover:bg-slate-800/80"
+                >
+                  Movies & Series
                 </Link>
                 <Link
                   to="/explore"
