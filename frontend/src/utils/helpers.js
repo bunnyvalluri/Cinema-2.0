@@ -1,6 +1,6 @@
-export const getImageUrl = (path, size = 'w500') => {
+export const getImageUrl = (path, size = 'w342') => {
   if (!path) {
-    return 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80';
+    return 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80';
   }
   if (path.startsWith('http')) return path;
   return `https://image.tmdb.org/t/p/${size}${path}`;

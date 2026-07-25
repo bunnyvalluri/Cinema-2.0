@@ -7,7 +7,7 @@ import { useMovieContext } from '../../context/MovieContext';
 
 export const MovieCard = ({ movie, onQuickView }) => {
   const { toggleWatchlist, toggleFavorite, isInWatchlist, isFavorite } = useMovieContext();
-  const posterUrl = getImageUrl(movie.poster_path, 'w500');
+  const posterUrl = getImageUrl(movie.poster_path, 'w342');
   const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'NR';
   const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : '';
   const inWatchlist = isInWatchlist(movie.id);
@@ -17,13 +17,13 @@ export const MovieCard = ({ movie, onQuickView }) => {
     <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative rounded-2xl flex flex-col justify-between"
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.25, ease: 'easeOut' }}
+      className="group relative rounded-2xl flex flex-col justify-between transform-gpu"
     >
       {/* Ambient Poster Blur Glow Cast */}
       <div
-        className="poster-glow-bg"
+        className="poster-glow-bg opacity-0 group-hover:opacity-60 transition-opacity duration-300 pointer-events-none"
         style={{
           backgroundImage: `url(${posterUrl})`,
           backgroundSize: 'cover',
@@ -38,9 +38,9 @@ export const MovieCard = ({ movie, onQuickView }) => {
           <img
             src={posterUrl}
             alt={movie.title}
-            loading="eager"
+            loading="lazy"
             decoding="async"
-            className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out transform-gpu"
           />
 
           {/* Overlay gradient on hover */}
