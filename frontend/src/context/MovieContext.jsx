@@ -7,15 +7,15 @@ export const MovieProvider = ({ children }) => {
   const [watchlist, setWatchlist] = useState(() => {
     const saved = localStorage.getItem('cinema_elk_watchlist');
     return saved ? JSON.parse(saved) : [
-      { id: 157336, title: 'Interstellar', poster_path: '/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', release_date: '2014-11-05', vote_average: 8.6 },
-      { id: 27205, title: 'Inception', poster_path: '/oYuLE1311oA8hwoTDhAcOSLFqft.jpg', release_date: '2010-07-15', vote_average: 8.4 }
+      { id: 157336, title: 'Interstellar', poster_path: '/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', release_date: '2014-11-05', vote_average: 8.6, overview: 'The adventures of a group of explorers who make use of a newly discovered wormhole.' },
+      { id: 27205, title: 'Inception', poster_path: '/edv5CZvWj09upOsy2Y6IwDhK82l.jpg', release_date: '2010-07-15', vote_average: 8.4, overview: 'Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets.' }
     ];
   });
 
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem('cinema_elk_favorites');
     return saved ? JSON.parse(saved) : [
-      { id: 550, title: 'Fight Club', poster_path: '/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', release_date: '1999-10-15', vote_average: 8.4 }
+      { id: 550, title: 'Fight Club', poster_path: '/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', release_date: '1999-10-15', vote_average: 8.4, overview: 'A ticking-time-bomb insomniac and a slippery soap salesman form an underground fight club.' }
     ];
   });
 
