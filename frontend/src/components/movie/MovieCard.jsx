@@ -38,7 +38,8 @@ export const MovieCard = ({ movie, onQuickView }) => {
           <img
             src={posterUrl}
             alt={movie.title}
-            loading="lazy"
+            loading="eager"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
           />
 

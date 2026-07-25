@@ -62,6 +62,8 @@ export const HeroCarousel = ({ movies = [] }) => {
                 <img
                   src={backdrop}
                   alt={movie.title}
+                  loading="eager"
+                  decoding="async"
                   className="w-full h-full object-cover object-center sm:object-top opacity-50 sm:opacity-60 scale-105 transition-transform duration-10000 ease-out"
                 />
                 {/* Dynamic Vignette Gradients */}

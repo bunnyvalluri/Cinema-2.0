@@ -40,7 +40,7 @@ export const ScrollToTop = () => {
   const strokeDashoffset = circumference - (scrollProgress / 100) * circumference;
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-30">
       <button
         onClick={scrollToTop}
         className="relative group p-3 rounded-full glass-panel border border-slate-700/80 text-slate-200 hover:text-primary transition-all duration-300 shadow-2xl hover:scale-110 flex items-center justify-center bg-dark-bg/80 backdrop-blur-xl"

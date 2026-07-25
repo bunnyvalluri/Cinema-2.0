@@ -18,13 +18,22 @@
   }
 
   body {
-    @apply font-sans bg-dark-bg text-slate-100 overflow-x-hidden antialiased;
+    @apply font-sans bg-dark-bg text-slate-100 overflow-x-hidden antialiased relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background-image: 
       radial-gradient(at 15% 15%, rgba(255, 107, 53, 0.08) 0px, transparent 50%),
       radial-gradient(at 85% 25%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
       radial-gradient(at 50% 75%, rgba(250, 204, 21, 0.04) 0px, transparent 50%);
-    background-attachment: fixed;
+    transform: translateZ(0);
   }
+
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight;
@@ -182,6 +191,32 @@
   text-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
 }
 
+.text-gradient-primary {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF9F1C 50%, #FACC15 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-pill {
+  background: rgba(30, 41, 59, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease-in-out;
+}
+
+.glass-pill:hover {
+  background: rgba(255, 107, 53, 0.15);
+  border-color: rgba(255, 107, 53, 0.4);
+  transform: translateY(-2px);
+}
+
 /* Shimmer Skeleton */
 @keyframes shimmer {
   0% {
@@ -202,3 +237,39 @@
   background-size: 200% 100%;
   animation: shimmer 1.8s infinite;
 }
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float-slow 4s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee 35s linear infinite reverse;
+}
+
+.genre-swiper-marquee .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+
