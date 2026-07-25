@@ -13,20 +13,20 @@ export const Community = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8 sm:space-y-10">
       <div className="text-center max-w-2xl mx-auto space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-extrabold font-heading text-slate-100 flex items-center justify-center gap-3">
-          <FiUsers className="text-primary" /> Film Critic Community
+        <h1 className="text-2xl sm:text-4xl font-extrabold font-heading text-slate-100 flex items-center justify-center gap-3">
+          <FiUsers className="text-primary flex-shrink-0" /> Film Critic Community
         </h1>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs sm:text-sm text-slate-400">
           Connect with passion-driven film lovers, follow top reviewers, and join trending film discussions.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Col: Activity & Reviews */}
         <div className="lg:col-span-2 space-y-6">
-          <h2 className="text-lg font-bold font-heading text-slate-100 flex items-center gap-2">
+          <h2 className="text-base sm:text-lg font-bold font-heading text-slate-100 flex items-center gap-2">
             <FiMessageSquare className="text-accent" /> Trending Reviews Feed
           </h2>
           <div className="space-y-4">
@@ -38,22 +38,22 @@ export const Community = () => {
 
         {/* Right Col: Leaderboard */}
         <div className="space-y-6">
-          <div className="p-6 rounded-3xl glass-panel border border-slate-800 space-y-4">
-            <h3 className="text-sm font-bold font-heading text-slate-100 uppercase tracking-wider flex items-center gap-2">
+          <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl glass-panel border border-slate-800 space-y-4">
+            <h3 className="text-xs sm:text-sm font-bold font-heading text-slate-100 uppercase tracking-wider flex items-center gap-2">
               <FiAward className="text-accent" /> Top Community Reviewers
             </h3>
 
             <div className="space-y-3">
               {topReviewers.map((reviewer, idx) => (
-                <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
+                <div key={idx} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
                   <div className="flex items-center gap-3">
-                    <img src={reviewer.avatar} alt={reviewer.name} className="w-10 h-10 rounded-full object-cover" />
+                    <img src={reviewer.avatar} alt={reviewer.name} className="w-10 h-10 rounded-full object-cover border border-primary/40 flex-shrink-0" />
                     <div>
                       <h4 className="text-xs font-bold text-slate-100">{reviewer.name}</h4>
                       <p className="text-[10px] text-slate-400">{reviewer.reviewsCount} Published Reviews</p>
                     </div>
                   </div>
-                  <button className="px-3 py-1 rounded-xl bg-primary/20 text-primary border border-primary/40 text-[11px] font-bold hover:bg-primary hover:text-white transition-all">
+                  <button className="self-end sm:self-auto px-3 py-1 rounded-xl bg-primary/20 text-primary border border-primary/40 text-[11px] font-bold hover:bg-primary hover:text-white transition-all">
                     Follow
                   </button>
                 </div>
@@ -65,3 +65,5 @@ export const Community = () => {
     </div>
   );
 };
+
+export default Community;
