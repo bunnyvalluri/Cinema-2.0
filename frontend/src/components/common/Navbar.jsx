@@ -50,7 +50,7 @@ export const Navbar = () => {
 
   const navLinks = [
     { label: 'Overview', path: '/' },
-    { label: 'Movies & Series', path: '/home' },
+    { label: 'Movies', path: '/home' },
     { label: 'Explore', path: '/explore' },
     { label: 'Community', path: '/community' },
   ];
@@ -92,15 +92,15 @@ export const Navbar = () => {
               </kbd>
             </button>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-slate-800/80 backdrop-blur-md">
+            {/* Desktop Navigation Links - Single-Line Pill Layout */}
+            <nav className="hidden lg:flex items-center gap-1.5 bg-slate-900/80 p-1.5 rounded-full border border-slate-800/80 backdrop-blur-md">
               {navLinks.map((link) => {
                 const active = location.pathname === link.path;
                 return (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`text-xs font-semibold px-4 py-2 rounded-full transition-all relative ${
+                    className={`text-xs font-semibold px-4 py-2 rounded-full transition-all relative whitespace-nowrap inline-flex items-center shrink-0 ${
                       active
                         ? 'bg-primary text-white shadow-glow-primary'
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
@@ -250,14 +250,14 @@ export const Navbar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-200 hover:bg-slate-800/80"
                 >
-                  Overview (Landing)
+                  Overview
                 </Link>
                 <Link
                   to="/home"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-200 hover:bg-slate-800/80"
                 >
-                  Movies & Series
+                  Movies
                 </Link>
                 <Link
                   to="/explore"
