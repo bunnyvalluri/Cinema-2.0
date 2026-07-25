@@ -67,7 +67,7 @@ export const Navbar = () => {
       {/* Top Header - Full Edge-to-Edge Width */}
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled ? 'glass-header py-2.5 sm:py-3 shadow-glass' : 'bg-gradient-to-b from-dark-bg via-dark-bg/95 to-transparent py-3 sm:py-4'
+          scrolled ? 'glass-header py-2.5 sm:py-3 shadow-glass' : 'bg-gradient-to-b from-dark-bg via-dark-bg/95 to-transparent py-2.5 sm:py-4'
         }`}
       >
         <div className="w-full px-3 sm:px-6 lg:px-10">
@@ -112,39 +112,39 @@ export const Navbar = () => {
             </nav>
 
             {/* Action Tools & User Profile - Pinned to Far Right */}
-            <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
               {/* Search Icon Trigger for Mobile */}
               <button
                 onClick={() => setSearchModalOpen(true)}
                 className="md:hidden p-2 sm:p-2.5 rounded-full bg-slate-900/80 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
                 title="Search"
               >
-                <FiSearch className="w-4 h-4" />
+                <FiSearch className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
 
-              {/* Watchlist Quick Button (Desktop/Tablet) */}
+              {/* Watchlist Quick Button - ALWAYS VISIBLE */}
               <Link
                 to="/watchlist"
-                className="hidden sm:flex relative p-2 sm:p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
+                className="relative p-2 sm:p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
                 title="Watchlist"
               >
-                <FiBookmark className="w-4 h-4" />
+                <FiBookmark className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 {watchlist.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-primary text-white text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center shadow-glow-primary animate-pulse-slow">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-primary text-white text-[8px] sm:text-[10px] font-bold rounded-full flex items-center justify-center shadow-glow-primary animate-pulse-slow">
                     {watchlist.length}
                   </span>
                 )}
               </Link>
 
-              {/* Favorites Quick Button */}
+              {/* Favorites Quick Button - ALWAYS VISIBLE */}
               <Link
                 to="/favorites"
-                className="hidden sm:flex relative p-2 sm:p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-400 border border-slate-700/60 transition-all shadow-md"
+                className="relative p-2 sm:p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-400 border border-slate-700/60 transition-all shadow-md"
                 title="Favorites"
               >
-                <FiHeart className="w-4 h-4" />
+                <FiHeart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 {favorites.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-rose-500 text-white text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center shadow-md">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-rose-500 text-white text-[8px] sm:text-[10px] font-bold rounded-full flex items-center justify-center shadow-md">
                     {favorites.length}
                   </span>
                 )}
@@ -155,7 +155,7 @@ export const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                    className="flex items-center gap-2 p-1 rounded-full bg-slate-900/80 border border-slate-700/80 hover:border-primary/60 transition-all"
+                    className="flex items-center gap-1.5 p-0.5 sm:p-1 rounded-full bg-slate-900/80 border border-slate-700/80 hover:border-primary/60 transition-all"
                   >
                     <img
                       src={user.photoURL}
@@ -213,7 +213,7 @@ export const Navbar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-bold rounded-full bg-gradient-to-r from-primary to-primary-hover text-white shadow-glow-primary hover:scale-105 transition-all"
+                  className="px-2.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-bold rounded-full bg-gradient-to-r from-primary to-primary-hover text-white shadow-glow-primary hover:scale-105 transition-all"
                 >
                   Sign In
                 </Link>
@@ -222,7 +222,7 @@ export const Navbar = () => {
               {/* Mobile Menu Hamburger */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 sm:p-2.5 rounded-full bg-slate-900/80 text-slate-300 border border-slate-700/60"
+                className="lg:hidden p-1.5 sm:p-2.5 rounded-full bg-slate-900/80 text-slate-300 border border-slate-700/60"
               >
                 {mobileMenuOpen ? <FiX className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiMenu className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
