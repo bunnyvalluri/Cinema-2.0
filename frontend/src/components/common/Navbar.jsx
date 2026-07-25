@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  FiFilm,
-  FiSearch,
+  FiHome,
+  FiCompass,
+  FiUsers,
   FiBookmark,
   FiHeart,
   FiUser,
@@ -10,7 +11,7 @@ import {
   FiLogOut,
   FiMenu,
   FiX,
-  FiTrendingUp,
+  FiSearch,
   FiCommand,
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
@@ -53,19 +54,28 @@ export const Navbar = () => {
     { label: 'Community', path: '/community' },
   ];
 
+  const mobileBottomTabs = [
+    { label: 'Home', path: '/', icon: FiHome },
+    { label: 'Explore', path: '/explore', icon: FiCompass },
+    { label: 'Community', path: '/community', icon: FiUsers },
+    { label: 'Saved', path: '/watchlist', icon: FiBookmark, badge: watchlist.length },
+    { label: 'Profile', path: user ? '/profile' : '/login', icon: FiUser },
+  ];
+
   return (
     <>
+      {/* Top Header */}
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled ? 'glass-header py-3 shadow-glass' : 'bg-gradient-to-b from-dark-bg via-dark-bg/80 to-transparent py-5'
+          scrolled ? 'glass-header py-2.5 sm:py-3 shadow-glass' : 'bg-gradient-to-b from-dark-bg via-dark-bg/90 to-transparent py-3 sm:py-5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
             {/* Brand Logo */}
             <CinemaElkLogo size="md" />
 
-            {/* Spotlight Search Trigger Button */}
+            {/* Spotlight Search Trigger Button (Desktop & Tablet) */}
             <button
               onClick={() => setSearchModalOpen(true)}
               className="hidden md:flex items-center justify-between flex-1 max-w-md bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 px-4 py-2.5 rounded-full border border-slate-700/60 hover:border-primary/60 transition-all shadow-inner text-sm backdrop-blur-md group"
@@ -100,16 +110,25 @@ export const Navbar = () => {
             </nav>
 
             {/* Action Tools & User Profile */}
-            <div className="flex items-center gap-2.5">
-              {/* Watchlist Quick Button */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+              {/* Search Icon Trigger for Mobile */}
+              <button
+                onClick={() => setSearchModalOpen(true)}
+                className="md:hidden p-2 sm:p-2.5 rounded-full bg-slate-900/80 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
+                title="Search"
+              >
+                <FiSearch className="w-4 h-4" />
+              </button>
+
+              {/* Watchlist Quick Button (Desktop/Tablet) */}
               <Link
                 to="/watchlist"
-                className="relative p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
+                className="hidden sm:flex relative p-2 sm:p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
                 title="Watchlist"
               >
                 <FiBookmark className="w-4 h-4" />
                 {watchlist.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-glow-primary animate-pulse-slow">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-primary text-white text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center shadow-glow-primary animate-pulse-slow">
                     {watchlist.length}
                   </span>
                 )}
@@ -118,12 +137,12 @@ export const Navbar = () => {
               {/* Favorites Quick Button */}
               <Link
                 to="/favorites"
-                className="relative p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-400 border border-slate-700/60 transition-all shadow-md"
+                className="hidden sm:flex relative p-2 sm:p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-400 border border-slate-700/60 transition-all shadow-md"
                 title="Favorites"
               >
                 <FiHeart className="w-4 h-4" />
                 {favorites.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-rose-500 text-white text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center shadow-md">
                     {favorites.length}
                   </span>
                 )}
@@ -134,12 +153,12 @@ export const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                    className="flex items-center gap-2.5 p-1 rounded-full bg-slate-900/80 border border-slate-700/80 hover:border-primary/60 transition-all"
+                    className="flex items-center gap-2 p-1 rounded-full bg-slate-900/80 border border-slate-700/80 hover:border-primary/60 transition-all"
                   >
                     <img
                       src={user.photoURL}
                       alt={user.displayName}
-                      className="w-8 h-8 rounded-full object-cover border border-primary/60"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-primary/60"
                     />
                     <span className="hidden sm:inline text-xs font-semibold text-slate-200 max-w-[90px] truncate pr-2">
                       {user.displayName}
@@ -192,7 +211,7 @@ export const Navbar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-xs font-bold rounded-full bg-gradient-to-r from-primary to-primary-hover text-white shadow-glow-primary hover:scale-105 transition-all"
+                  className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-bold rounded-full bg-gradient-to-r from-primary to-primary-hover text-white shadow-glow-primary hover:scale-105 transition-all"
                 >
                   Sign In
                 </Link>
@@ -201,16 +220,16 @@ export const Navbar = () => {
               {/* Mobile Menu Hamburger */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2.5 rounded-full bg-slate-900/80 text-slate-300 border border-slate-700/60"
+                className="lg:hidden p-2 sm:p-2.5 rounded-full bg-slate-900/80 text-slate-300 border border-slate-700/60"
               >
-                {mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
+                {mobileMenuOpen ? <FiX className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiMenu className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
             </div>
           </div>
 
           {/* Mobile Dropdown Navigation */}
           {mobileMenuOpen && (
-            <div className="lg:hidden mt-4 p-4 rounded-3xl glass-panel-elevated border border-slate-700/80 space-y-3">
+            <div className="lg:hidden mt-3 p-4 rounded-3xl glass-panel-elevated border border-slate-700/80 space-y-3">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -222,7 +241,7 @@ export const Navbar = () => {
                 <span>Search movies...</span>
               </button>
 
-              <nav className="flex flex-col space-y-2 pt-2">
+              <nav className="flex flex-col space-y-2 pt-1">
                 <Link
                   to="/"
                   onClick={() => setMobileMenuOpen(false)}
@@ -244,6 +263,20 @@ export const Navbar = () => {
                 >
                   Community
                 </Link>
+                <Link
+                  to="/watchlist"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-200 hover:bg-slate-800/80"
+                >
+                  My Watchlist ({watchlist.length})
+                </Link>
+                <Link
+                  to="/favorites"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-200 hover:bg-slate-800/80"
+                >
+                  My Favorites ({favorites.length})
+                </Link>
                 {isAdmin && (
                   <Link
                     to="/admin"
@@ -258,6 +291,34 @@ export const Navbar = () => {
           )}
         </div>
       </header>
+
+      {/* Floating Bottom Navigation Bar for Mobile Screens (lg:hidden) */}
+      <nav className="lg:hidden fixed bottom-3 left-3 right-3 z-40 bg-slate-950/90 backdrop-blur-2xl border border-slate-700/80 rounded-full px-3 py-2 shadow-spotlight flex items-center justify-around">
+        {mobileBottomTabs.map((tab) => {
+          const Icon = tab.icon;
+          const active = location.pathname === tab.path;
+          return (
+            <Link
+              key={tab.label}
+              to={tab.path}
+              className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-2xl transition-all relative ${
+                active ? 'text-primary font-bold scale-105' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Icon className="w-5 h-5" />
+              <span className="text-[10px] font-medium">{tab.label}</span>
+              {active && (
+                <span className="w-1 h-1 rounded-full bg-primary shadow-glow-primary" />
+              )}
+              {tab.badge > 0 && (
+                <span className="absolute top-0 right-2 w-3.5 h-3.5 bg-primary text-white text-[8px] font-bold rounded-full flex items-center justify-center">
+                  {tab.badge}
+                </span>
+              )}
+            </Link>
+          );
+        })}
+      </nav>
 
       {/* Spotlight Search Modal */}
       <SearchModal isOpen={searchModalOpen} onClose={() => setSearchModalOpen(false)} />

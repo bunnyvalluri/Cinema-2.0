@@ -3,32 +3,32 @@ import { Link } from 'react-router-dom';
 
 export const CinemaElkLogo = ({ size = 'md', showText = true, className = '' }) => {
   const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12',
-    xl: 'w-16 h-16',
+    sm: 'w-7 h-7 sm:w-8 sm:h-8',
+    md: 'w-8 h-8 sm:w-10 sm:h-10',
+    lg: 'w-10 h-10 sm:w-12 sm:h-12',
+    xl: 'w-12 h-12 sm:w-16 sm:h-16',
   };
 
   const textSizes = {
-    sm: 'text-lg',
-    md: 'text-xl',
-    lg: 'text-2xl',
-    xl: 'text-3xl',
+    sm: 'text-base sm:text-lg',
+    md: 'text-base sm:text-xl',
+    lg: 'text-lg sm:text-2xl',
+    xl: 'text-xl sm:text-3xl',
   };
 
   return (
-    <Link to="/" className={`flex items-center gap-3 group focus:outline-none ${className}`}>
+    <Link to="/" className={`flex items-center gap-2 sm:gap-3 group focus:outline-none flex-shrink-0 ${className}`}>
       {/* Icon Badge Container with Glow Effect */}
       <div className={`relative ${sizeClasses[size]} flex-shrink-0 group-hover:scale-105 transition-transform duration-300`}>
         {/* Ambient Glow Backdrop */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-primary to-violet-600 rounded-2xl blur-md opacity-75 group-hover:opacity-100 transition duration-500 group-hover:duration-200 animate-pulse"></div>
+        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-primary to-violet-600 rounded-xl sm:rounded-2xl blur-sm sm:blur-md opacity-75 group-hover:opacity-100 transition duration-500 group-hover:duration-200 animate-pulse"></div>
         
         {/* Logo Image / Icon Box */}
-        <div className="relative w-full h-full rounded-xl bg-slate-950 p-1 border border-cyan-500/40 overflow-hidden flex items-center justify-center shadow-xl">
+        <div className="relative w-full h-full rounded-lg sm:rounded-xl bg-slate-950 p-1 border border-cyan-500/40 overflow-hidden flex items-center justify-center shadow-xl">
           <img
             src="/logo.png"
             alt="Cinema Elk Logo"
-            className="w-full h-full object-cover rounded-lg transform group-hover:scale-110 transition-transform duration-300"
+            className="w-full h-full object-cover rounded-md sm:rounded-lg transform group-hover:scale-110 transition-transform duration-300"
             onError={(e) => {
               // Fallback to inline SVG if image fails
               e.currentTarget.style.display = 'none';
@@ -56,17 +56,17 @@ export const CinemaElkLogo = ({ size = 'md', showText = true, className = '' }) 
 
       {/* Brand Text Header */}
       {showText && (
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <span className={`${textSizes[size]} font-heading font-extrabold tracking-wider text-slate-100 flex items-center leading-none`}>
             CINEMA
-            <span className="bg-gradient-to-r from-cyan-400 via-primary to-purple-400 bg-clip-text text-transparent ml-1.5 font-black">
+            <span className="bg-gradient-to-r from-cyan-400 via-primary to-purple-400 bg-clip-text text-transparent ml-1 font-black">
               ELK
             </span>
-            <span className="ml-2 text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-sans font-bold shadow-inner">
+            <span className="ml-1.5 text-[9px] sm:text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-sans font-bold shadow-inner">
               2.0
             </span>
           </span>
-          <span className="text-[9px] uppercase tracking-widest text-slate-400 font-medium opacity-80 group-hover:text-cyan-400 transition-colors">
+          <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-slate-400 font-medium opacity-80 group-hover:text-cyan-400 transition-colors hidden sm:block">
             Film &amp; Series Discovery
           </span>
         </div>
@@ -74,3 +74,5 @@ export const CinemaElkLogo = ({ size = 'md', showText = true, className = '' }) 
     </Link>
   );
 };
+
+export default CinemaElkLogo;
