@@ -64,21 +64,23 @@ export const Navbar = () => {
 
   return (
     <>
-      {/* Top Header */}
+      {/* Top Header - Full Edge-to-Edge Width */}
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled ? 'glass-header py-2.5 sm:py-3 shadow-glass' : 'bg-gradient-to-b from-dark-bg via-dark-bg/90 to-transparent py-3 sm:py-5'
+          scrolled ? 'glass-header py-2.5 sm:py-3 shadow-glass' : 'bg-gradient-to-b from-dark-bg via-dark-bg/95 to-transparent py-3 sm:py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="w-full px-3 sm:px-6 lg:px-10">
           <div className="flex items-center justify-between gap-2 sm:gap-4">
-            {/* Brand Logo */}
-            <CinemaElkLogo size="md" />
+            {/* Brand Logo - Pinned to Far Left */}
+            <div className="flex-shrink-0">
+              <CinemaElkLogo size="md" />
+            </div>
 
             {/* Spotlight Search Trigger Button (Desktop & Tablet) */}
             <button
               onClick={() => setSearchModalOpen(true)}
-              className="hidden md:flex items-center justify-between flex-1 max-w-md bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 px-4 py-2.5 rounded-full border border-slate-700/60 hover:border-primary/60 transition-all shadow-inner text-sm backdrop-blur-md group"
+              className="hidden md:flex items-center justify-between flex-1 max-w-md bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 px-4 py-2 rounded-full border border-slate-700/60 hover:border-primary/60 transition-all shadow-inner text-xs sm:text-sm backdrop-blur-md group mx-4"
             >
               <span className="flex items-center gap-2.5">
                 <FiSearch className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
@@ -109,7 +111,7 @@ export const Navbar = () => {
               })}
             </nav>
 
-            {/* Action Tools & User Profile */}
+            {/* Action Tools & User Profile - Pinned to Far Right */}
             <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
               {/* Search Icon Trigger for Mobile */}
               <button
