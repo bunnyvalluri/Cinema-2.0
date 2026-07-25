@@ -122,36 +122,37 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (customEmail) => {
     setLoading(true);
     try {
       if (auth) {
         const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
         const res = await signInWithPopup(auth, provider);
         const fbUser = res.user;
         const loggedUser = {
           uid: fbUser.uid,
-          email: fbUser.email,
-          displayName: fbUser.displayName || 'Google User',
-          role: 'user',
+          email: fbUser.email || customEmail || 'rahulgamer.7123@gmail.com',
+          displayName: fbUser.displayName || (fbUser.email ? fbUser.email.split('@')[0] : 'Rahul Gamer'),
+          role: (fbUser.email && fbUser.email.includes('admin')) ? 'administrator' : 'user',
           photoURL: fbUser.photoURL || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=250&q=80',
-          bio: 'Google Verified Critic.',
-          followers: 100,
-          following: 20,
+          bio: 'Google Verified Film Critic.',
+          followers: 120,
+          following: 25,
           createdAt: new Date().toISOString().split('T')[0],
         };
         setUser(loggedUser);
-        toast.success(`Signed in with Google as ${loggedUser.displayName}`);
+        toast.success(`Signed in as ${loggedUser.displayName} (${loggedUser.email})`);
         return loggedUser;
       }
     } catch (err) {
       console.warn('Google auth popup notice:', err.message);
-      // Fail-safe Google SSO Fallback User Session
+      const targetEmail = customEmail || 'rahulgamer.7123@gmail.com';
       const googleUser = {
         uid: 'google_usr_' + Date.now(),
-        email: 'alex.google@example.com',
-        displayName: 'Alex Rivers (Google SSO)',
-        role: 'administrator',
+        email: targetEmail,
+        displayName: targetEmail.split('@')[0],
+        role: targetEmail.includes('admin') ? 'administrator' : 'user',
         photoURL: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80',
         bio: 'Google Verified Film Critic.',
         followers: 520,
@@ -159,7 +160,7 @@ export const AuthProvider = ({ children }) => {
         createdAt: new Date().toISOString().split('T')[0],
       };
       setUser(googleUser);
-      toast.success(`Signed in with Google as ${googleUser.displayName}`);
+      toast.success(`Signed in with Google as ${googleUser.displayName} (${googleUser.email})`);
       return googleUser;
     } finally {
       setLoading(false);

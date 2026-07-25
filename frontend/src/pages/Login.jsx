@@ -18,7 +18,7 @@ import { FaGoogle } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
 export const Login = () => {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
   const { login, loginWithGoogle, loading } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +36,8 @@ export const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await loginWithGoogle();
+      const inputEmail = watch('email');
+      await loginWithGoogle(inputEmail);
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -160,7 +161,7 @@ export const Login = () => {
               <div className="relative">
                 <input
                   type="email"
-                  placeholder="admin@cinemaelk.com"
+                  placeholder="rahulgamer.7123@gmail.com"
                   {...register('email', { required: 'Email address is required' })}
                   className="w-full bg-slate-900 text-slate-100 text-xs sm:text-sm pl-10 pr-4 py-3 rounded-2xl border border-slate-700/80 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all shadow-inner"
                 />
