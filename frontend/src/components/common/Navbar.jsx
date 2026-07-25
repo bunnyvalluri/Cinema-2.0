@@ -65,42 +65,42 @@ export const Navbar = () => {
 
   return (
     <>
-      {/* Top Header - Full Edge-to-Edge Width */}
+      {/* Top Header - Full Edge-to-Edge Responsive Width */}
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled ? 'glass-header py-2.5 sm:py-3 shadow-glass' : 'bg-gradient-to-b from-dark-bg via-dark-bg/95 to-transparent py-2.5 sm:py-4'
         }`}
       >
-        <div className="w-full px-3 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-between gap-2 sm:gap-4">
-            {/* Brand Logo - Pinned to Far Left */}
+        <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-10">
+          <div className="flex items-center justify-between gap-2 lg:gap-4">
+            {/* Brand Logo - Far Left */}
             <div className="flex-shrink-0">
               <CinemaElkLogo size="md" />
             </div>
 
-            {/* Spotlight Search Trigger Button (Desktop & Tablet) */}
+            {/* Wide Screen Search Bar (xl Screens Only - 1280px+) */}
             <button
               onClick={() => setSearchModalOpen(true)}
-              className="hidden md:flex items-center justify-between flex-1 max-w-md bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 px-4 py-2 rounded-full border border-slate-700/60 hover:border-primary/60 transition-all shadow-inner text-xs sm:text-sm backdrop-blur-md group mx-4"
+              className="hidden xl:flex items-center justify-between flex-1 max-w-sm bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 px-4 py-2 rounded-full border border-slate-700/60 hover:border-primary/60 transition-all shadow-inner text-xs backdrop-blur-md group mx-2"
             >
-              <span className="flex items-center gap-2.5">
-                <FiSearch className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+              <span className="flex items-center gap-2">
+                <FiSearch className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
                 <span className="truncate">Search movies, cast, genres...</span>
               </span>
-              <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[10px] font-bold uppercase text-slate-400 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-md shadow-sm">
+              <kbd className="inline-flex items-center gap-0.5 text-[10px] font-bold uppercase text-slate-400 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-md shadow-sm">
                 <FiCommand className="w-2.5 h-2.5" /> K
               </kbd>
             </button>
 
-            {/* Desktop Navigation Links - Single-Line Pill Layout */}
-            <nav className="hidden lg:flex items-center gap-1.5 bg-slate-900/80 p-1.5 rounded-full border border-slate-800/80 backdrop-blur-md">
+            {/* Desktop Navigation Links (lg Screens+ 1024px+) */}
+            <nav className="hidden lg:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-full border border-slate-800/80 backdrop-blur-md flex-shrink-0">
               {navLinks.map((link) => {
                 const active = location.pathname === link.path;
                 return (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`text-xs font-semibold px-4 py-2 rounded-full transition-all relative whitespace-nowrap inline-flex items-center shrink-0 ${
+                    className={`text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all relative whitespace-nowrap inline-flex items-center shrink-0 ${
                       active
                         ? 'bg-primary text-white shadow-glow-primary'
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
@@ -112,12 +112,12 @@ export const Navbar = () => {
               })}
             </nav>
 
-            {/* Action Tools & User Profile - Pinned to Far Right */}
-            <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-              {/* Search Icon Trigger for Mobile */}
+            {/* Action Tools & User Profile - Far Right */}
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+              {/* Search Icon Trigger for Mobile/Tablet (< xl screens) */}
               <button
                 onClick={() => setSearchModalOpen(true)}
-                className="md:hidden p-2 sm:p-2.5 rounded-full bg-slate-900/80 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
+                className="xl:hidden p-2 sm:p-2.5 rounded-full bg-slate-900/80 text-slate-300 hover:text-primary border border-slate-700/60 transition-all shadow-md"
                 title="Search"
               >
                 <FiSearch className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -163,7 +163,7 @@ export const Navbar = () => {
                       alt={user.displayName}
                       className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-primary/60"
                     />
-                    <span className="hidden sm:inline text-xs font-semibold text-slate-200 max-w-[90px] truncate pr-2">
+                    <span className="hidden xl:inline text-xs font-semibold text-slate-200 max-w-[90px] truncate pr-2">
                       {user.displayName}
                     </span>
                   </button>
