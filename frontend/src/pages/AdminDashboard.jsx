@@ -18,7 +18,14 @@ import {
   FiDatabase,
   FiX,
   FiLock,
-  FiAlertTriangle,
+  FiPlus,
+  FiDownload,
+  FiTerminal,
+  FiSliders,
+  FiZap,
+  FiRadio,
+  FiKey,
+  FiFilm,
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
@@ -26,9 +33,32 @@ export const AdminDashboard = () => {
   const { user } = useAuth();
   const [userSearch, setUserSearch] = useState('');
   const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [showAddMovieModal, setShowAddMovieModal] = useState(false);
+
+  // New User Form State
   const [newUserName, setNewUserName] = useState('');
   const [newUserEmail, setNewUserEmail] = useState('');
   const [newUserRole, setNewUserRole] = useState('user');
+
+  // New Movie Form State
+  const [movieTitle, setMovieTitle] = useState('');
+  const [movieYear, setMovieYear] = useState('2026');
+  const [movieGenre, setMovieGenre] = useState('Action');
+  const [movieRating, setMovieRating] = useState('8.8');
+
+  // System Toggles
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [redisCacheActive, setRedisCacheActive] = useState(true);
+  const [allowComments, setAllowComments] = useState(true);
+  const [enforce2FA, setEnforce2FA] = useState(true);
+
+  // Audit Logs State
+  const [auditLogs, setAuditLogs] = useState([
+    { id: 1, time: '07:34:12', type: 'INFO', msg: 'Admin Alex Rivers authenticated via Firebase Auth' },
+    { id: 2, time: '07:32:05', type: 'CACHE', msg: 'Flushed 140 stale TMDB poster cache items' },
+    { id: 3, time: '07:28:44', type: 'RBAC', msg: 'User role updated: Sarah Jenkins -> Moderator' },
+    { id: 4, time: '07:15:00', type: 'BACKUP', msg: 'Automated database snapshot completed (1.2 GB)' },
+  ]);
 
   const initialUsers = [
     { id: 'usr_1', name: 'Alex Rivers', email: 'admin@cinemaelk.com', role: 'administrator', status: 'Active', joined: '2024-01-15' },
@@ -38,16 +68,21 @@ export const AdminDashboard = () => {
   ];
 
   const [usersList, setUsersList] = useState(initialUsers);
-
   const [reportsList, setReportsList] = useState([
     { id: 'rep_1', targetType: 'Review', title: 'Spam / Promo text in review', reporter: 'User #942', status: 'Pending' },
     { id: 'rep_2', targetType: 'Comment', title: 'Inappropriate language', reporter: 'User #108', status: 'Reviewed' },
   ]);
 
+  const addLogEntry = (type, msg) => {
+    const time = new Date().toTimeString().split(' ')[0];
+    setAuditLogs((prev) => [{ id: Date.now(), time, type, msg }, ...prev]);
+  };
+
   const handleRoleChange = (userId, newRole) => {
     setUsersList((prev) =>
       prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
     );
+    addLogEntry('RBAC', `Updated role for user ID ${userId} to ${newRole}`);
     toast.success(`User role updated to ${newRole}`);
   };
 
@@ -56,6 +91,7 @@ export const AdminDashboard = () => {
       prev.map((u) => {
         if (u.id === userId) {
           const nextStatus = u.status === 'Active' ? 'Flagged' : 'Active';
+          addLogEntry('SECURITY', `Status for ${u.name} changed to ${nextStatus}`);
           toast.success(`Status for ${u.name} set to ${nextStatus}`);
           return { ...u, status: nextStatus };
         }
@@ -79,19 +115,36 @@ export const AdminDashboard = () => {
       joined: new Date().toISOString().split('T')[0],
     };
     setUsersList((prev) => [newUser, ...prev]);
+    addLogEntry('USER', `Provisioned new account ${newUser.email} (${newUser.role})`);
     setNewUserName('');
     setNewUserEmail('');
     setShowAddUserModal(false);
     toast.success(`User ${newUser.name} added as ${newUser.role}`);
   };
 
+  const handleIndexMovie = (e) => {
+    e.preventDefault();
+    if (!movieTitle.trim()) return;
+    addLogEntry('INDEXER', `Indexed new title: ${movieTitle} (${movieYear}) [${movieGenre}]`);
+    setMovieTitle('');
+    setShowAddMovieModal(false);
+    toast.success(`Successfully indexed "${movieTitle}" into TMDB catalog!`);
+  };
+
+  const handleExportCSV = () => {
+    addLogEntry('EXPORT', 'Exported platform user audit log to CSV format');
+    toast.success('Downloaded user_audit_report.csv');
+  };
+
   const handleDismissReport = (repId) => {
     setReportsList((prev) => prev.filter((r) => r.id !== repId));
+    addLogEntry('MODERATION', `Dismissed report ID ${repId}`);
     toast.success('Report dismissed');
   };
 
   const handleDeleteReport = (repId) => {
     setReportsList((prev) => prev.filter((r) => r.id !== repId));
+    addLogEntry('MODERATION', `Deleted flagged content for report ID ${repId}`);
     toast.error('Flagged content deleted');
   };
 
@@ -112,19 +165,37 @@ export const AdminDashboard = () => {
               <Badge variant="accent" size="sm">
                 <FiLock className="w-3.5 h-3.5 mr-1 inline" /> ENTERPRISE RBAC V2.4
               </Badge>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                SYSTEM HEALTH 100/100
+              </span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold font-heading text-white tracking-tight flex items-center gap-3 text-glow">
               <FiShield className="text-accent flex-shrink-0" /> Enterprise Admin Console
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-xl">
-              System administration, RBAC security controls, real-time platform analytics, and content moderation logs.
+              System administration, RBAC security controls, real-time platform analytics, catalog indexing, and audit logs.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 self-end md:self-auto">
+          {/* Action Toolbar */}
+          <div className="flex items-center gap-2.5 flex-wrap self-end md:self-auto">
+            <button
+              onClick={() => setShowAddMovieModal(true)}
+              className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 text-xs font-bold border border-slate-700 hover:border-primary transition-all flex items-center gap-2"
+            >
+              <FiFilm className="w-4 h-4 text-primary" /> Index Film
+            </button>
+
+            <button
+              onClick={handleExportCSV}
+              className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 text-xs font-bold border border-slate-700 hover:border-accent transition-all flex items-center gap-2"
+            >
+              <FiDownload className="w-4 h-4 text-accent" /> Export CSV
+            </button>
+
             <button
               onClick={() => setShowAddUserModal(true)}
-              className="px-5 py-3 rounded-2xl bg-gradient-to-r from-primary to-primary-hover text-white text-xs font-bold shadow-glow-primary hover:scale-105 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-hover text-white text-xs font-bold shadow-glow-primary hover:scale-105 transition-all flex items-center gap-2"
             >
               <FiUserPlus className="w-4 h-4" /> Add User
             </button>
@@ -132,7 +203,7 @@ export const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* System Telemetry & Cluster Status Bar */}
+      {/* System Telemetry & Status Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="p-3.5 rounded-2xl glass-panel border border-slate-800 flex items-center gap-3 text-xs">
           <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
@@ -173,6 +244,111 @@ export const AdminDashboard = () => {
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-400">Memory Usage</p>
             <p className="font-bold text-slate-100 mt-0.5">2.4 / 8 GB (30%)</p>
+          </div>
+        </div>
+      </div>
+
+      {/* System Governance & Live Toggles Section */}
+      <div className="p-5 sm:p-6 rounded-3xl glass-panel-elevated border border-slate-800 space-y-4 shadow-xl">
+        <h3 className="text-base font-bold font-heading text-slate-100 flex items-center gap-2">
+          <FiSliders className="text-accent" /> Platform Governance & Security Switches
+        </h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {/* Toggle 1: Maintenance Mode */}
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-200">Maintenance Mode</p>
+              <p className="text-[10px] text-slate-400">Display downtime banner</p>
+            </div>
+            <button
+              onClick={() => {
+                setMaintenanceMode(!maintenanceMode);
+                addLogEntry('CONFIG', `Maintenance mode set to ${!maintenanceMode}`);
+                toast.success(`Maintenance Mode ${!maintenanceMode ? 'ENABLED' : 'DISABLED'}`);
+              }}
+              className={`w-11 h-6 rounded-full transition-colors relative p-1 ${
+                maintenanceMode ? 'bg-rose-500' : 'bg-slate-800'
+              }`}
+            >
+              <span
+                className={`block w-4 h-4 rounded-full bg-white transition-transform ${
+                  maintenanceMode ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Toggle 2: Redis Cache */}
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-200">Redis Edge Cache</p>
+              <p className="text-[10px] text-slate-400">Accelerate TMDB queries</p>
+            </div>
+            <button
+              onClick={() => {
+                setRedisCacheActive(!redisCacheActive);
+                addLogEntry('CONFIG', `Redis Cache set to ${!redisCacheActive}`);
+                toast.success(`Redis Cache ${!redisCacheActive ? 'ACTIVE' : 'DISABLED'}`);
+              }}
+              className={`w-11 h-6 rounded-full transition-colors relative p-1 ${
+                redisCacheActive ? 'bg-emerald-500' : 'bg-slate-800'
+              }`}
+            >
+              <span
+                className={`block w-4 h-4 rounded-full bg-white transition-transform ${
+                  redisCacheActive ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Toggle 3: Mute Comments */}
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-200">Community Reviews</p>
+              <p className="text-[10px] text-slate-400">Allow public posts</p>
+            </div>
+            <button
+              onClick={() => {
+                setAllowComments(!allowComments);
+                addLogEntry('CONFIG', `Community Reviews set to ${!allowComments}`);
+                toast.success(`Community Reviews ${!allowComments ? 'ENABLED' : 'MUTED'}`);
+              }}
+              className={`w-11 h-6 rounded-full transition-colors relative p-1 ${
+                allowComments ? 'bg-primary' : 'bg-slate-800'
+              }`}
+            >
+              <span
+                className={`block w-4 h-4 rounded-full bg-white transition-transform ${
+                  allowComments ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Toggle 4: Enforce 2FA */}
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-200">Admin 2FA Policy</p>
+              <p className="text-[10px] text-slate-400">Mandatory authenticator</p>
+            </div>
+            <button
+              onClick={() => {
+                setEnforce2FA(!enforce2FA);
+                addLogEntry('CONFIG', `2FA Policy set to ${!enforce2FA}`);
+                toast.success(`Admin 2FA Policy ${!enforce2FA ? 'ENFORCED' : 'OPTIONAL'}`);
+              }}
+              className={`w-11 h-6 rounded-full transition-colors relative p-1 ${
+                enforce2FA ? 'bg-purple-600' : 'bg-slate-800'
+              }`}
+            >
+              <span
+                className={`block w-4 h-4 rounded-full bg-white transition-transform ${
+                  enforce2FA ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
           </div>
         </div>
       </div>
@@ -319,7 +495,44 @@ export const AdminDashboard = () => {
         )}
       </div>
 
-      {/* Add User Modal Overlay */}
+      {/* Live System Activity Audit Stream Terminal */}
+      <div className="p-5 sm:p-6 rounded-3xl glass-panel-elevated border border-slate-800 space-y-3 shadow-xl">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 className="text-sm font-bold font-heading text-slate-100 flex items-center gap-2">
+            <FiTerminal className="text-emerald-400" /> Real-time System Audit Stream
+          </h3>
+          <button
+            onClick={() => setAuditLogs([])}
+            className="text-[11px] font-bold text-slate-400 hover:text-white"
+          >
+            Clear Terminal
+          </button>
+        </div>
+
+        <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 font-mono text-[11px] space-y-2 max-h-48 overflow-y-auto">
+          {auditLogs.map((log) => (
+            <div key={log.id} className="flex items-start gap-3">
+              <span className="text-slate-500">{log.time}</span>
+              <span
+                className={`font-bold px-1.5 py-0.5 rounded text-[9px] ${
+                  log.type === 'INFO'
+                    ? 'bg-blue-500/20 text-blue-400'
+                    : log.type === 'RBAC'
+                    ? 'bg-purple-500/20 text-purple-400'
+                    : log.type === 'SECURITY'
+                    ? 'bg-rose-500/20 text-rose-400'
+                    : 'bg-emerald-500/20 text-emerald-400'
+                }`}
+              >
+                [{log.type}]
+              </span>
+              <span className="text-slate-300 flex-1">{log.msg}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Add User Modal */}
       <AnimatePresence>
         {showAddUserModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-bg/85 backdrop-blur-xl">
@@ -392,6 +605,83 @@ export const AdminDashboard = () => {
                     className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-hover text-white text-xs font-bold shadow-glow-primary hover:scale-105 transition-all"
                   >
                     Create Account
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Index Movie Modal */}
+      <AnimatePresence>
+        {showAddMovieModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-bg/85 backdrop-blur-xl">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-md p-6 rounded-3xl glass-panel-elevated border border-slate-700 shadow-spotlight space-y-4"
+            >
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider font-heading flex items-center gap-2">
+                  <FiFilm className="text-primary" /> Index Custom Movie
+                </h3>
+                <button
+                  onClick={() => setShowAddMovieModal(false)}
+                  className="p-1 rounded-full text-slate-400 hover:text-white"
+                >
+                  <FiX className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleIndexMovie} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-300 uppercase">Movie Title</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Blade Runner 2099"
+                    value={movieTitle}
+                    onChange={(e) => setMovieTitle(e.target.value)}
+                    className="w-full bg-slate-900 text-xs text-slate-100 px-3.5 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-primary"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-300 uppercase">Release Year</label>
+                    <input
+                      type="text"
+                      value={movieYear}
+                      onChange={(e) => setMovieYear(e.target.value)}
+                      className="w-full bg-slate-900 text-xs text-slate-100 px-3.5 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-300 uppercase">Genre</label>
+                    <input
+                      type="text"
+                      value={movieGenre}
+                      onChange={(e) => setMovieGenre(e.target.value)}
+                      className="w-full bg-slate-900 text-xs text-slate-100 px-3.5 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddMovieModal(false)}
+                    className="px-4 py-2 rounded-xl bg-slate-800 text-xs font-bold text-slate-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-hover text-white text-xs font-bold shadow-glow-primary hover:scale-105 transition-all"
+                  >
+                    Index Film
                   </button>
                 </div>
               </form>
